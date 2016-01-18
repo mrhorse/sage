@@ -1,4 +1,14 @@
-# [Sage](https://roots.io/sage/)
+# Susy Sage (forked from [Sage](https://roots.io/sage/))
+
+## Additional features:
+
+* Removed bootstrap fluff ;)
+* Added susy grid system
+* Customizr built in (gulp-modernizr) ready to scan project assets and manually add options
+* SVG symbols implementation from inline SVG. svg4everybody already included for unsupported browsers.
+
+
+
 [![Build Status](https://travis-ci.org/roots/sage.svg)](https://travis-ci.org/roots/sage)
 [![devDependency Status](https://david-dm.org/roots/sage/dev-status.svg)](https://david-dm.org/roots/sage#info=devDependencies)
 
