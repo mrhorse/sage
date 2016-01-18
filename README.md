@@ -6,6 +6,8 @@
 * Added susy grid system
 * Customizr built in (gulp-modernizr) ready to scan project assets and manually add options
 * SVG symbols implementation from inline SVG. svg4everybody already included for unsupported browsers.
+* Restructured sass dirs a lil bit
+* Extra events to fire in js
 
 
 
