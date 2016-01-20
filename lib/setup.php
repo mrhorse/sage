@@ -101,6 +101,29 @@ function assets() {
     wp_enqueue_script('comment-reply');
   }
 
+  ///
+  // header scripts
+  ///
+  wp_enqueue_script('modernizr', Assets\asset_path('scripts/modernizr-custom.js'), [], null, false);
+  // add svg4everybody for IE9 +
+  wp_enqueue_script( 'sage/sg4everybody', Assets\asset_path('scripts/svg4everybody.min.js'), __FILE__, false);
+  // add svg4everybody for IE8 and down
+  wp_register_script( 'sage/sg4everybody-legacy', Assets\asset_path('scripts/svg4everybody.legacy.min.js'), __FILE__, false);
+  wp_enqueue_script( 'sage/sg4everybody-legacy');
+  wp_script_add_data( 'sage/sg4everybody-legacy', 'conditional', 'lte IE 8' );
+
+
+  ///
+  // footer scripts
+  ///
   wp_enqueue_script('sage/js', Assets\asset_path('scripts/main.js'), ['jquery'], null, true);
 }
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
+
+
+
+
+
+
+
+

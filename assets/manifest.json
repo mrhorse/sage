@@ -1,24 +1,55 @@
 {
   "dependencies": {
+    "plugins.js": {
+      "files": [
+        "scripts/plugins.js"
+      ],
+      "bower": ["velocity", "isotope", "magnific-popup", "owl.carousel", "matchHeight"],
+      "main": true
+    },
+
     "main.js": {
       "files": [
         "scripts/main.js"
       ],
       "main": true
     },
-    "main.css": {
+
+    "_wiredeps.css": {
       "files": [
-        "styles/main.scss"
+        "styles/_wiredeps.scss"
       ],
       "main": true
     },
+
     "customizer.js": {
       "files": [
         "scripts/customizer.js"
       ]
     },
+
     "jquery.js": {
       "bower": ["jquery"]
+    },
+
+    "svg4everybody.min.js": {
+      "files": [
+        "../bower_components/svg4everybody/dist/svg4everybody.min.js"
+      ],
+      "options": {
+        "uglify": false
+      },
+      "bower": ["svg4everybody"]
+    },
+    
+    "svg4everybody.legacy.min.js": {
+      "files" : [
+        "../bower_components/svg4everybody/dist/svg4everybody.legacy.min.js"
+      ],
+      "options": {
+        "uglify": false
+      },
+      "bower": ["svg4everybody"]
     }
   },
   "config": {

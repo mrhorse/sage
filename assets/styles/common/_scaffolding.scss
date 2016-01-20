@@ -1,0 +1,39 @@
+// Layout scaffolding. Grid etc
+$susy:(
+  columns: 12,
+  gutters: 0.22,
+  math: fluid,
+  output: float,
+  gutter-position: after
+);
+
+.container {
+  @include container(mobile);
+    padding: 0 20px;
+
+  @include respond(from mobile) {
+    padding: 0 30px;
+  }
+
+  @include respond(from tablet) {
+    @include container(desktop);
+  }
+  @include respond(from desktop) {
+    @include container(1280px);
+
+  }
+  
+  /* DEBUG 
+  .col {
+    background: rgba(0,0,0,0.7);
+    min-height: 500px;
+
+    @include span(1 of 12);
+
+    &:last-child {
+      @include last;
+    }
+  }
+  */
+
+}

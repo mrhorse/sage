@@ -22,6 +22,12 @@
       },
       finalize: function() {
         // JavaScript to be fired on all pages, after page specific JS is fired
+      },
+      load: function() {
+
+      },
+      resize: function() {
+
       }
     },
     // Home page
@@ -64,6 +70,11 @@
       $.each(document.body.className.replace(/-/g, '_').split(/\s+/), function(i, classnm) {
         UTIL.fire(classnm);
         UTIL.fire(classnm, 'finalize');
+
+        $(window).on('resize load', function(e){ // 2 new functions to fire above :D
+          UTIL.fire('common', e.type);
+          UTIL.fire(classnm, e.type);          
+        });
       });
 
       // Fire common finalize JS

@@ -1,9 +1,53 @@
-// Glyphicons font path
-$icon-font-path:        "../fonts/";
 
-// Grid settings
-$main-sm-columns:       12;
-$sidebar-sm-columns:    4;
 
-// Colors
-$brand-primary:         #27ae60;
+$material_bezier: cubic-bezier(.62,.28,.23,.99);
+
+
+
+
+
+// Breakpoints. Change these and they'll change globally (every time mixin 'respond-to' is @included. 
+// Change the values by all means, but be aware that changing the keys will require a find and replace operation on all instances of respond(KEY)
+$breakpoints: (
+  small-mobile:  320px,
+  mobile:        480px, // or 320? Single col 480 then elastic below covers all mobile devices.
+  tablet:        768px,
+  desktop:       960px,
+  wide:          1280px,
+  huge:          1440px
+);
+
+
+
+// Colours - bright
+
+
+
+// Colours - neutral
+$white: #fff;
+$black: #000;
+$tundora: #494949;
+
+
+
+
+// Appropriate colours to contexts
+// $body_bg :              
+// $body_text:            
+
+// $primary_link:          
+
+// $homepage_title:        
+
+// $footer_bg:             
+// $footer_text:           
+// $footer_links:          
+// $footer_border_bottom:  
+
+// $primary_btn_text:      
+// $primary_btn_bg:        
+// $primary_btn_bg_hover:
+// $nav_item_colour:       
+// $nav_item_active_bg:    
+// $nav_item_active_colour:
+// $nav_item_hover_bg:     

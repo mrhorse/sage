@@ -1,3 +1,5 @@
+//TODO: Make svg4everybody only call on production to avoid overheads. Maybe.
+
 // ## Globals
 var argv         = require('minimist')(process.argv.slice(2));
 var autoprefixer = require('gulp-autoprefixer');
@@ -13,11 +15,14 @@ var lazypipe     = require('lazypipe');
 var less         = require('gulp-less');
 var merge        = require('merge-stream');
 var minifyCss    = require('gulp-minify-css');
+var modernizr    = require('gulp-modernizr');
 var plumber      = require('gulp-plumber');
 var rev          = require('gulp-rev');
 var runSequence  = require('run-sequence');
 var sass         = require('gulp-sass');
 var sourcemaps   = require('gulp-sourcemaps');
+var svgMin       = require('gulp-svgmin');
+var svgSymbols   = require('gulp-svg-symbols');
 var uglify       = require('gulp-uglify');
 
 // See https://github.com/austinpray/asset-builder
@@ -49,6 +54,7 @@ var globs = manifest.globs;
 // - `project.js` - Array of first-party JS assets.
 // - `project.css` - Array of first-party CSS assets.
 var project = manifest.getProjectGlobs();
+
 
 // CLI options
 var enabled = {
@@ -185,11 +191,29 @@ gulp.task('styles', ['wiredep'], function() {
 });
 
 // ### Scripts
+
+// Create a custom modernizr build. 
+// Full config elements:
+// https://github.com/Modernizr/Modernizr/blob/master/lib/config-all.json
+// note if there's a slash on the detect then remove the slash when adding below, eg. video/autoplay becomes videoautoplay
+gulp.task('modernizr', function() {
+  return gulp.src(['./assets/scripts/**/*.js','./assets/styles/**/*.scss'])
+    .pipe(modernizr('modernizr-custom.js', {
+      "options": ['setClasses'],
+      "tests": ['svg'] 
+    }))
+    .pipe(uglify())
+    .pipe(gulp.dest(path.dist + 'scripts'));
+});
+
 // `gulp scripts` - Runs JSHint then compiles, combines, and optimizes Bower JS
 // and project JS.
 gulp.task('scripts', ['jshint'], function() {
   var merged = merge();
+  //console.dir(manifest);
   manifest.forEachDependency('js', function(dep) {
+    //dep_options = manifest.dependencies[dep.name].options; // my way to grab options from the manifest for use in the js tasks - can pass this to the jstasks call below. As yet unused
+    //console.dir(dep); // see what js files are being merged where
     merged.add(
       gulp.src(dep.globs, {base: 'scripts'})
         .pipe(jsTasks(dep.name))
@@ -221,6 +245,18 @@ gulp.task('images', function() {
     .pipe(gulp.dest(path.dist + 'images'))
     .pipe(browserSync.stream());
 });
+
+// SVG sprite
+gulp.task('svg-sprite',function () {
+    return gulp.src('assets/svgs/**/*.svg')
+      .pipe(svgMin()) // compress svg's
+      .pipe(svgSymbols({
+        className: '.icon--%f'
+      }))
+      .pipe(gulp.dest(path.dist + 'svg'))
+      .pipe(browserSync.stream());
+});
+
 
 // ### JSHint
 // `gulp jshint` - Lints configuration JSON and project JS.
@@ -256,6 +292,7 @@ gulp.task('watch', function() {
   gulp.watch([path.source + 'scripts/**/*'], ['jshint', 'scripts']);
   gulp.watch([path.source + 'fonts/**/*'], ['fonts']);
   gulp.watch([path.source + 'images/**/*'], ['images']);
+  gulp.watch([path.source + 'svgs/**/*'], ['svg-sprite']);
   gulp.watch(['bower.json', 'assets/manifest.json'], ['build']);
 });
 
@@ -265,7 +302,7 @@ gulp.task('watch', function() {
 gulp.task('build', function(callback) {
   runSequence('styles',
               'scripts',
-              ['fonts', 'images'],
+              ['fonts', 'images', 'svg-sprite'],
               callback);
 });
 
@@ -274,6 +311,7 @@ gulp.task('build', function(callback) {
 // https://github.com/taptapship/wiredep
 gulp.task('wiredep', function() {
   var wiredep = require('wiredep').stream;
+  console.dir(project.css);
   return gulp.src(project.css)
     .pipe(wiredep())
     .pipe(changed(path.source + 'styles', {

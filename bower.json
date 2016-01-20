@@ -7,29 +7,56 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "bootstrap-sass": "3.3.6"
+    "susy": "~2.2.6",
+    "compass-breakpoint": "breakpoint-sass#~2.6.1",
+    "bourbon": "~4.2.6",
+    "velocity": "~1.2.3",
+    "matchHeight": "matchheight#~0.7.0",
+    "isotope": "~2.2.2",
+    "owl.carousel": "owl-carousel2#~2.0.0-beta.3",
+    "magnific-popup": "~1.0.1",
+    "svg4everybody": "~2.0.0"
   },
   "overrides": {
-    "bootstrap-sass": {
+    "susy": {
       "main": [
-        "./assets/stylesheets/_bootstrap.scss",
-        "./assets/javascripts/bootstrap/transition.js",
-        "./assets/javascripts/bootstrap/alert.js",
-        "./assets/javascripts/bootstrap/button.js",
-        "./assets/javascripts/bootstrap/carousel.js",
-        "./assets/javascripts/bootstrap/collapse.js",
-        "./assets/javascripts/bootstrap/dropdown.js",
-        "./assets/javascripts/bootstrap/modal.js",
-        "./assets/javascripts/bootstrap/tooltip.js",
-        "./assets/javascripts/bootstrap/popover.js",
-        "./assets/javascripts/bootstrap/scrollspy.js",
-        "./assets/javascripts/bootstrap/tab.js",
-        "./assets/javascripts/bootstrap/affix.js",
-        "./assets/fonts/bootstrap/glyphicons-halflings-regular.eot",
-        "./assets/fonts/bootstrap/glyphicons-halflings-regular.svg",
-        "./assets/fonts/bootstrap/glyphicons-halflings-regular.ttf",
-        "./assets/fonts/bootstrap/glyphicons-halflings-regular.woff",
-        "./assets/fonts/bootstrap/glyphicons-halflings-regular.woff2"
+        "./sass/_susy.scss"
+      ]
+    },
+    "compass-breakpoint": {
+      "main": [
+        "./stylesheets/_breakpoint.scss"
+      ]
+    },
+    "bourbon": {
+      "main": [
+        "./app/assets/stylesheets/_bourbon.scss"
+      ]
+    },
+    "velocity": {
+      "main": [
+        "./velocity.min.js",
+        "./velocity.ui.min.js"
+      ]
+    },
+    "isotope": {
+      "main": [
+        "./dist/isotope.pkgd.min.js"
+      ],
+      "dependencies": {}
+    },
+    "magnific-popup": {
+      "main": [
+        "./dist/magnific-popup.css",
+        "./dist/jquery.magnific-popup.min.js"
+      ],
+      "dependencies": {}
+    },
+    "owl.carousel": {
+      "main": [
+        "./dist/owl.carousel.min.js",
+        "./dist/assets/owl.carousel.min.css",
+        "./dist/assets/owl.theme.default.css"
       ]
     }
   }

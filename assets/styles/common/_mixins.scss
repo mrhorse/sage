@@ -1,0 +1,193 @@
+// BASICALLY, custom mixin to loop through our breaakpoints map and apply the key's (bp name) to its corresponding breakpoint value
+// It will output the @media query.
+// Format MUST BE @include respond(to mobile) as a single parameter, no comma. Can be either from or to. Takes into account subtraction of 1px when processing 'to' breakpoint
+@mixin respond($values) {
+
+  $direction : nth($values, 1);
+  $name : nth($values, 2);
+
+  @each $bp-name, $bp-width in $breakpoints {
+    @if $name == $bp-name {
+      @if $name == 'desktop' { // our breakpoint for non-mq supporting browsers
+        @include breakpoint($bp-width, true) { // second parameter means use this break point for no-query brwosers (ie. IE8 :facepalm:)
+          @content;
+        }
+      } @else {
+        @if $direction == to {
+          @include breakpoint(max-width $bp-width - 1) { // second parameter means use this break point 
+            @content;
+          }
+        } @else {
+          @include breakpoint($bp-width) { // second parameter means use this break point 
+            @content;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+@function strip-unit($num) {
+  @return $num / ($num * 0 + 1);
+}
+
+// Convert pixels to rem, based on base font
+@function calculate-rem($size,$base-font-size:$fs-base-px) {
+  $remSize: $size / strip-unit($base-font-size);
+  @return #{$remSize};
+}
+
+// Rem sizing, px fallback
+// http://css-tricks.com/snippets/css/less-mixin-for-rem-font-sizing/
+@mixin rem($property, $values) {
+  $max: length($values);
+  $pxValues: "";
+  $remValues: "";
+
+  @for $i from 1 through $max {
+    $value: strip-unit(nth($values, $i));
+    $pxValues: #{$pxValues + $value}px;
+
+    @if $i < $max {
+      $pxValues: #{$pxValues + " "};
+    }
+  }
+
+  @for $i from 1 through $max {
+    $value: strip-unit(nth($values, $i));
+    $remValues: #{$remValues + calculate-rem($value)}rem;
+
+    @if $i < $max {
+      $remValues: #{$remValues + " "};
+    }
+  }
+
+  #{$property}: $pxValues;
+  #{$property}: $remValues;
+}
+
+
+@mixin list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+@mixin invisible($animated:null) {
+  visibility: hidden;
+  opacity: 0;
+
+  @if $animated {
+    @include transition(all $material-bezier 0.3s);
+  }
+}
+@mixin visible {
+  visibility: visible;
+  opacity: 1;
+}
+@mixin animation($time:null) {
+  @if $time {
+    @include transition(all $material-bezier $time);  
+  } @else {
+    @include transition(all $material-bezier 0.25s);  
+  }
+  
+}
+
+
+@mixin scrollable-overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  
+  // Must have only 1 child
+  > * {
+      height: 100%;
+      overflow: scroll;
+  }
+}
+
+
+/**
+ *  RGBA fallback mixin, returns rgba with hex fallback. Specify:
+ *  $property: e.g. background, color
+ *  $colour
+ *  $opacity
+ *  $mix (OPTIONAL) - Mixin assumes the opacity is calculated over a white background behind - this allows control over what color is layered behind
+ */
+@mixin rgba($property, $colour: black, $opacity: 0.75, $mix: white) {
+    #{$property}: mix($colour, $mix, $opacity * 100%); // fallback
+    #{$property}: rgba($colour, $opacity); // real rgba
+}
+
+
+/**
+ * 2 mixins to vertically align elements - both msut be used to achieve the effect properly
+ */ 
+// Must be applied to parent element
+@mixin vertical-align-wrap($position: relative) {
+  display: table;
+  width: 100%;
+  height: 100%;
+}
+
+// Vertically align this element
+@mixin vertical-align($align: middle) {
+  display: table-cell;
+  vertical-align: $align; // override this as necessary
+}
+
+// Avoid collapsing margins when applying margins to modules. Try to add to an element you won't be messing about with too much
+// @params $values - Module padding. Add in the same way you'd specify padding on any element.
+// @params $remove - Pass true to UNSET padding added via this mixin
+@mixin module-padding($values, $remove:null) {
+  
+  @if $remove {
+    padding: 0;
+    &:before,
+    &:after {
+      content: none;
+      height: auto;
+    }
+    &:before {
+      margin-bottom: 0;
+    }
+    &:after {
+      margin-top: 0;
+    }
+  } @else {
+
+    $max: length($values);
+    $padding : ( top: nth($values, 1), right: nth($values, 1), bottom: nth($values, 1), left: nth($values, 1) );
+
+    @if $max >= 2 {
+      $padding : map-merge( $padding, ( right: nth($values, 2), left: nth($values, 2) ) );
+    }
+    @if $max >= 3 {
+      $padding : map-merge( $padding, ( bottom: nth($values, 3) ) );
+    }
+    @if $max == 4 {
+      $padding : map-merge( $padding, ( left: nth($values, 4) ) );
+    }
+
+    padding: 0 map-get($padding, right) 0 map-get($padding, left);
+
+    &:before,
+    &:after {
+      content: "";
+      display: block;
+      
+    }
+    
+    &:before {
+      height: 1px;
+      margin-bottom: map-get($padding, top) - 1;
+    }
+      
+    &:after {
+      height: 1px;
+      margin-top: map-get($padding, bottom) - 1;
+    }
+  }
+}
