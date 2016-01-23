@@ -3,9 +3,13 @@
 use Roots\Sage\Setup;
 use Roots\Sage\Wrapper;
 
-?>
-
-<!doctype html>
+?><!doctype html>
+<!--[if lt IE 7]>  <html <?php language_attributes(); ?> class="ie ie6 lte9 lte8 lte7 no-js"> <![endif]-->
+<!--[if IE 7]>     <html <?php language_attributes(); ?> class="ie ie7 lte9 lte8 lte7 no-js"> <![endif]-->
+<!--[if IE 8]>     <html <?php language_attributes(); ?> class="ie ie8 lte9 lte8 no-js"> <![endif]-->
+<!--[if IE 9]>     <html <?php language_attributes(); ?> class="ie ie9 lte9 no-js"> <![endif]-->
+<!--[if gt IE 9]>  <html <?php language_attributes(); ?>> <![endif]-->
+<!--[if !IE]><!--> <html <?php language_attributes(); ?> class="no-js"> <!--<![endif]-->
 <html <?php language_attributes(); ?>>
   <?php get_template_part('templates/head'); ?>
   <body <?php body_class(); ?>>
