@@ -22,3 +22,11 @@ function title() {
     return get_the_title();
   }
 }
+
+/**
+ *  If using a page's title field for admin reference use a new field 'page title' instead
+ */
+function page_title() {
+  $page_title = get_field('page_title') !== false ? the_field('page_title') : title();
+  return $page_title;
+}
