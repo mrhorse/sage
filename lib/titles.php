@@ -24,7 +24,8 @@ function title() {
 }
 
 /**
- *  If using a page's title field for admin reference use a new field 'page title' instead
+ *  If using a page's title field for admin reference use a new field 'page title' instead. 
+ *  Fallback to title
  */
 function get_page_title() {
   return get_field('page_title') ? the_field('page_title') : title();
