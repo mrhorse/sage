@@ -65,7 +65,9 @@ var enabled = {
   // Fail styles task on error when `--production`
   failStyleTask: argv.production,
   // Fail due to JSHint warnings only when `--production`
-  failJSHint: argv.production,
+  //failJSHint: argv.production,
+  // Only uglify JS when compiling for production
+  uglifyJS: argv.production,
   // Strip debug statments from javascript when `--production`
   stripJSDebug: argv.production
 };
@@ -137,10 +139,13 @@ var jsTasks = function(filename) {
       return gulpif(enabled.maps, sourcemaps.init());
     })
     .pipe(concat, filename)
-    .pipe(uglify, {
-      compress: {
-        'drop_debugger': enabled.stripJSDebug
-      }
+    // no point uglifying unless we're in production env:
+    .pipe(function() {
+      return gulpif(enabled.uglifyJS, uglify({
+        compress: {
+          'drop_debugger': enabled.stripJSDebug
+        }
+      }))
     })
     .pipe(function() {
       return gulpif(enabled.rev, rev());
