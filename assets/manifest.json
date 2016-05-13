@@ -4,7 +4,7 @@
       "files": [
         "scripts/plugins.js"
       ],
-      "bower": ["velocity", "isotope", "magnific-popup", "owl.carousel", "matchHeight"],
+      "bower": ["velocity", "isotope", "magnific-popup", "owl.carousel", "matchHeight", "fastclick"],
       "main": true
     },
 

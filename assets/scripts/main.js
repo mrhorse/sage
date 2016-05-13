@@ -19,6 +19,8 @@
     'common': {
       init: function() {
         // JavaScript to be fired on all pages
+	FastClick.attach(document.body); // remove 300ms delay from touch devices
+	svg4everybody(); // svg support
       },
       finalize: function() {
         // JavaScript to be fired on all pages, after page specific JS is fired
