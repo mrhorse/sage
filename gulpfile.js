@@ -12,7 +12,6 @@ var gulpif       = require('gulp-if');
 var imagemin     = require('gulp-imagemin');
 var jshint       = require('gulp-jshint');
 var lazypipe     = require('lazypipe');
-var less         = require('gulp-less');
 var merge        = require('merge-stream');
 var cssNano      = require('gulp-cssnano');
 var modernizr    = require('gulp-modernizr');
@@ -92,9 +91,6 @@ var cssTasks = function(filename) {
     })
     .pipe(function() {
       return gulpif(enabled.maps, sourcemaps.init());
-    })
-    .pipe(function() {
-      return gulpif('*.less', less());
     })
     .pipe(function() {
       return gulpif('*.scss', sass({
@@ -196,7 +192,7 @@ gulp.task('styles', ['wiredep'], function() {
 
 // ### Scripts
 
-// Create a custom modernizr build. 
+// Create a custom modernizr build.
 // Full config elements:
 // https://github.com/Modernizr/Modernizr/blob/master/lib/config-all.json
 // note if there's a slash on the detect then remove the slash when adding below, eg. video/autoplay becomes videoautoplay
@@ -204,7 +200,7 @@ gulp.task('modernizr', function() {
   return gulp.src(['./assets/scripts/**/*.js','./assets/styles/**/*.scss'])
     .pipe(modernizr('modernizr-custom.js', {
       "options": ['setClasses'],
-      "tests": ['svg'] 
+      "tests": ['svg']
     }))
     .pipe(uglify())
     .pipe(gulp.dest(path.dist + 'scripts'));
